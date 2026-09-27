@@ -1,8 +1,10 @@
 package br.com.fiap.model;
 
+import br.com.fiap.records.TempoDecorrido;
+
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 public class User {
     private String id;
@@ -69,6 +71,18 @@ public class User {
 
     public void addBank(Bank bank) {
         this.banks.add(bank);
+    }
+
+    public TempoDecorrido getAccountAge() {
+        return createdAt == null ? null : TempoDecorrido.desde(createdAt);
+    }
+
+    public double getPortfolioValue() {
+        double total = 0;
+        for (CryptoAsset cryptoAsset : cryptoAssets) {
+            total += cryptoAsset.getTotalValue();
+        }
+        return total;
     }
 
     public String getId() {

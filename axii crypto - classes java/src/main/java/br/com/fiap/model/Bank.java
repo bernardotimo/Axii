@@ -6,6 +6,7 @@ public class Bank {
     private boolean active;
     private String accountNumber;
     private int agency;
+    private String userId;
 
     public Bank() {
     }
@@ -16,6 +17,12 @@ public class Bank {
         this.active = active;
         this.accountNumber = accountNumber;
         this.agency = agency;
+    }
+
+    public Bank(String id, String bankName, boolean active, String accountNumber,
+                int agency, String userId) {
+        this(id, bankName, active, accountNumber, agency);
+        this.userId = userId;
     }
 
     public String getId() {
@@ -56,5 +63,13 @@ public class Bank {
 
     public void setAgency(int agency) {
         this.agency = agency;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

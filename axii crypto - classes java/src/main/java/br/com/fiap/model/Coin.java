@@ -1,9 +1,10 @@
 package br.com.fiap.model;
 
+import br.com.fiap.enums.TipoAtivo;
+
 import java.time.LocalDateTime;
 
 public class Coin extends CryptoAsset {
-    // Atributos específicos de moedas
     private String symbol;
     private String blockchain;
     private double marketPrice;
@@ -20,6 +21,15 @@ public class Coin extends CryptoAsset {
         this.marketPrice = marketPrice;
     }
 
+    public Coin(String id, String asset, double quantity,
+                LocalDateTime acquired, String source, String userId,
+                String symbol, String blockchain, double marketPrice) {
+        super(id, asset, quantity, acquired, source, userId);
+        this.symbol = symbol;
+        this.blockchain = blockchain;
+        this.marketPrice = marketPrice;
+    }
+
     @Override
     public double getCurrentValue() {
         return marketPrice;
@@ -31,11 +41,10 @@ public class Coin extends CryptoAsset {
     }
 
     @Override
-    public String getAssetType() {
-        return "COIN";
+    public TipoAtivo getAssetType() {
+        return TipoAtivo.COIN;
     }
 
-    // Getters / Setters
     public String getSymbol() {
         return symbol;
     }
@@ -60,4 +69,3 @@ public class Coin extends CryptoAsset {
         this.marketPrice = marketPrice;
     }
 }
-

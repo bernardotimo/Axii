@@ -1,6 +1,7 @@
 package br.com.fiap.exception;
 
-public class UserEntityNotFoundException extends Exception {
+public class UserEntityNotFoundException extends EntityNotFoundException {
+
     public UserEntityNotFoundException() {
     }
 

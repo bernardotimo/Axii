@@ -1,5 +1,7 @@
 package br.com.fiap.model;
 
+import br.com.fiap.enums.TipoAtivo;
+
 import java.time.LocalDateTime;
 
 public class Stablecoin extends CryptoAsset {
@@ -16,6 +18,14 @@ public class Stablecoin extends CryptoAsset {
         this.conversionRate = conversionRate;
     }
 
+    public Stablecoin(String id, String asset, double quantity,
+                      LocalDateTime acquired, String source, String userId,
+                      String currency, double conversionRate) {
+        super(id, asset, quantity, acquired, source, userId);
+        this.currency = currency;
+        this.conversionRate = conversionRate;
+    }
+
     @Override
     public double getCurrentValue() {
         return conversionRate;
@@ -27,8 +37,8 @@ public class Stablecoin extends CryptoAsset {
     }
 
     @Override
-    public String getAssetType() {
-        return "STABLECOIN";
+    public TipoAtivo getAssetType() {
+        return TipoAtivo.STABLECOIN;
     }
 
     public String getCurrency() {

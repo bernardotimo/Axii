@@ -5,6 +5,9 @@ public class Identity {
     private String phone;
     private String cpf;
 
+    public Identity() {
+    }
+
     public Identity(String id, String phone, String cpf) {
         this.id = id;
         this.phone = phone;

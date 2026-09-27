@@ -12,9 +12,12 @@ plataforma de gestão de criptoativos.
   │    ├─ 📁src/main
   │    │    ├─ 📁java/br.com.fiap
   │    │    │    ├─ 📁dao
+  │    │    │    ├─ 📁enums
   │    │    │    ├─ 📁exception
   │    │    │    ├─ 📁factory
   │    │    │    ├─ 📁model
+  │    │    │    ├─ 📁records
+  │    │    │    ├─ 📁security
   │    │    │    ├─ 📁view
   │    │    │    └─ 📄App.java
   │    │    └─ 📁env
@@ -76,14 +79,36 @@ Dentro de `axii crypto - classes java/`:
 mvn compile exec:java -Dexec.mainClass="br.com.fiap.App"
 ```
 
-A classe `App` executa, em sequência, o cadastro, a listagem, a pesquisa, a
-atualização e a remoção de um usuário de teste, usando as classes em
-`br.com.fiap.view` (`SignInUser`, `ListAllUsers`, `SearchUser`, `UpdateUser`,
-`DeleteUser`).
+A classe `App` abre um menu com dois caminhos:
+
+| Opção | O que faz                                                                                                                     |
+| ----- | ----------------------------------------------------------------------------------------------------------------------------- |
+| 1     | **Menu interativo** — navega pelas entidades e opera cada uma pelo teclado                                                    |
+| 2     | **Roteiro automático de testes** — executa inserir, listar, pesquisar, alterar e excluir de todas as classes, sem intervenção |
+
+O roteiro automático cria um usuário de teste do zero, pendura nele uma conta
+bancária, uma chave Pix, uma Coin e uma Stablecoin, exercita as consultas e os
+relatórios e, no fim, apaga tudo — o banco volta ao estado anterior.
+
+## Integração com o banco
+
+Cada classe do modelo tem o seu DAO, com os quatro verbos (inserir, alterar,
+excluir e exibir):
+
+| Classe                                | DAO                | Tabela                                                      |
+| ------------------------------------- | ------------------ | ----------------------------------------------------------- |
+| `User`                                | `UserDao`          | `t_axii_user`                                               |
+| `Settings`                            | `SettingsDao`      | `t_axii_settings`                                           |
+| `Notifications`                       | `NotificationsDao` | `t_axii_notifications`                                      |
+| `Identity`                            | `IdentityDao`      | `t_axii_identity`                                           |
+| `Bank`                                | `BankDao`          | `t_axii_bank`                                               |
+| `PixKey`                              | `PixKeyDao`        | `t_axii_pix_key`                                            |
+| `CryptoAsset` / `Coin` / `Stablecoin` | `CryptoAssetDao`   | `t_axii_crypto_asset` + `t_axii_coin` + `t_axii_stablecoin` |
 
 ## Observações
 
-- Apenas a entidade `User` (e seus relacionamentos 1:1 com `Settings`,
-  `Notifications` e `Identity`) está integrada ao banco nesta fase.
 - A senha do usuário é armazenada em texto puro no banco; em um projeto real,
   deveria ser armazenada com hash.
+- O DDL cria índices nas colunas de chave estrangeira (`ix_axii_bank_user`,
+  `ix_axii_pix_key_user`, `ix_axii_crypto_asset_user`). Sem eles, o Oracle
+  bloqueia a tabela filha inteira durante o `DELETE` do usuário.
